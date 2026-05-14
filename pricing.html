@@ -1,0 +1,388 @@
+<!-- // doc: learning_pricing -->
+<!-- // type: learning -->
+<!-- // for: team -->
+<!-- // source: notion / pricing-structure v1 -->
+<meta charset="utf-8">
+<title>Pricing — in 1h verstanden</title>
+<style>
+  :root{
+    --bg:#09100D;
+    --panel:#0E1714;
+    --panel-2:#101D18;
+    --line:#1E2B24;
+    --green:#15C97A;
+    --green-deep:#0A8F54;
+    --green-dim:#0e3d2a;
+    --text:#E8F3EE;
+    --mid:#7C9388;
+    --faint:#4A6358;
+    --amber:#C8924A;
+    --red:#C8704A;
+    --mono:'SFMono-Regular',Menlo,Consolas,'Courier New',monospace;
+    --sans:'Helvetica Neue',Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+  body{
+    padding:32px 20px 64px;
+    background-image:
+      linear-gradient(var(--line) 1px,transparent 1px),
+      linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:30px 30px;background-position:center top;
+  }
+  .wrap{max-width:780px;margin:0 auto;position:relative}
+  .corner{position:absolute;width:14px;height:14px;border-color:var(--green-deep);border-style:solid;opacity:.7}
+  .c-tl{top:-8px;left:-8px;border-width:1px 0 0 1px}
+  .c-tr{top:-8px;right:-8px;border-width:1px 1px 0 0}
+  .c-bl{bottom:-8px;left:-8px;border-width:0 0 1px 1px}
+  .c-br{bottom:-8px;right:-8px;border-width:0 1px 1px 0}
+
+  .stamp{font-family:var(--mono);font-size:11px;color:var(--faint);line-height:1.7;margin-bottom:22px}
+  .stamp .g{color:var(--green-deep)}
+
+  h1{font-size:30px;font-weight:700;letter-spacing:-.5px;line-height:1.15;margin-bottom:8px}
+  h1 .dot{color:var(--green)}
+  .sub{font-family:var(--mono);font-size:12px;color:var(--mid);margin-bottom:24px}
+
+  .hero{background:var(--panel);border:1px solid var(--line);border-left:2px solid var(--green);padding:18px 20px;margin-bottom:28px}
+  .hero p{font-size:15px;line-height:1.6}
+  .hero .lead{color:var(--green);font-weight:700}
+
+  .tabs{display:flex;gap:6px;flex-wrap:wrap}
+  .tab{font-family:var(--mono);font-size:11px;letter-spacing:.3px;background:var(--panel);color:var(--mid);
+    border:1px solid var(--line);border-bottom:none;padding:9px 13px;cursor:pointer;transition:.15s}
+  .tab:hover{color:var(--text)}
+  .tab.active{background:var(--panel-2);color:var(--green);border-color:var(--green-deep);border-bottom:none}
+  .panel{background:var(--panel-2);border:1px solid var(--line);padding:24px 22px;margin-bottom:28px;min-height:300px}
+  .panel:not(.active){display:none}
+
+  .kicker{font-family:var(--mono);font-size:11px;color:var(--green-deep);letter-spacing:.5px;margin-bottom:10px}
+  h2{font-size:18px;font-weight:700;margin-bottom:12px;letter-spacing:-.2px}
+  h3{font-size:14px;font-weight:700;margin:18px 0 6px}
+  p,li{font-size:14px;line-height:1.65;color:var(--text)}
+  .panel p{margin-bottom:12px}
+  ul{list-style:none;margin-bottom:12px}
+  li{padding-left:18px;position:relative;margin-bottom:7px}
+  li::before{content:"›";position:absolute;left:0;color:var(--green)}
+  .mid{color:var(--mid)}
+  em{color:var(--green);font-style:normal}
+  code{font-family:var(--mono);font-size:12px;background:var(--bg);border:1px solid var(--line);padding:1px 5px;color:var(--green)}
+
+  /* bracket cards */
+  .bracket{background:var(--panel);border:1px solid var(--line);padding:16px 16px 14px;margin-bottom:12px;position:relative}
+  .bracket.starter{border-left:3px solid var(--green)}
+  .bracket.standard{border-left:3px solid #4A90C8}
+  .bracket.strategic{border-left:3px solid #9A6FC8}
+  .bracket.audit{border-left:3px solid var(--amber);border-style:dashed;border-left-style:solid}
+  .bracket .top{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+  .bracket .name{font-weight:700;font-size:15px}
+  .bracket .who{font-family:var(--mono);font-size:10.5px;color:var(--mid)}
+  .bracket .prices{display:flex;gap:18px;margin-bottom:8px;flex-wrap:wrap}
+  .bracket .pr{font-family:var(--mono)}
+  .bracket .pr .v{font-size:17px;font-weight:700;color:var(--green)}
+  .bracket.standard .pr .v{color:#6FB0E0}
+  .bracket.strategic .pr .v{color:#B89AE0}
+  .bracket.audit .pr .v{color:#E0B070}
+  .bracket .pr .l{font-size:9.5px;color:var(--mid);letter-spacing:.3px;display:block;margin-top:2px}
+  .bracket .scope{font-size:12.5px;color:var(--mid);line-height:1.55}
+
+  .filter{background:var(--panel);border:1px dashed var(--green-deep);padding:14px 16px;margin-top:16px}
+  .filter .kicker{margin-bottom:8px}
+  .filter li{font-size:13px}
+  .filter code{font-size:11.5px}
+
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0 14px}
+  .box{background:var(--panel);border:1px solid var(--line);padding:13px 14px}
+  .box .h{font-family:var(--mono);font-size:10.5px;letter-spacing:.4px;margin-bottom:7px}
+  .box.in .h{color:var(--green)}
+  .box.out .h{color:var(--red)}
+  .box p{font-size:12.5px;color:var(--mid);line-height:1.55;margin:0}
+  .box li{font-size:12.5px;margin-bottom:4px;color:var(--text)}
+
+  .row{display:flex;border:1px solid var(--line);margin:6px 0;font-size:13px}
+  .row>div{padding:10px 12px}
+  .row .lbl{width:55%;border-right:1px solid var(--line);font-family:var(--mono);font-size:11.5px;color:var(--mid)}
+  .row .val{font-weight:700;color:var(--green)}
+
+  table{width:100%;border-collapse:collapse;margin:8px 0 14px;font-size:12.5px}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left}
+  th{font-family:var(--mono);font-size:10.5px;color:var(--green-deep);letter-spacing:.3px;font-weight:400}
+  td.n{font-family:var(--mono);color:var(--green)}
+
+  .example{background:var(--panel);border:1px solid var(--green-deep);border-top:2px solid var(--green);padding:18px 18px 14px;margin-top:14px}
+  .example .tag{font-family:var(--mono);font-size:10px;background:var(--green-dim);color:var(--green);padding:3px 7px;display:inline-block;margin-bottom:10px;letter-spacing:.4px}
+
+  /* interactive finder */
+  .finder{background:var(--panel);border:1px solid var(--green-deep);border-top:2px solid var(--green);padding:22px;margin-bottom:24px}
+  .finder .tag{font-family:var(--mono);font-size:10.5px;background:var(--green-dim);color:var(--green);padding:3px 7px;display:inline-block;margin-bottom:12px;letter-spacing:.4px}
+  .finder h2{margin-bottom:4px}
+  .finder .note{font-size:12.5px;color:var(--mid);margin-bottom:18px}
+  .q{font-family:var(--mono);font-size:11.5px;color:var(--mid);margin:14px 0 8px}
+  .opts{display:flex;gap:8px;flex-wrap:wrap}
+  .opt{font-family:var(--mono);font-size:12px;background:var(--bg);border:1px solid var(--line);color:var(--text);
+    padding:9px 14px;cursor:pointer;transition:.15s}
+  .opt:hover{border-color:var(--green-deep)}
+  .opt.sel{background:var(--green-dim);border-color:var(--green);color:var(--green)}
+  .result{margin-top:18px;background:var(--bg);border:1px solid var(--line);padding:16px;display:none}
+  .result.show{display:block}
+  .result .rk{font-family:var(--mono);font-size:10.5px;color:var(--mid);letter-spacing:.4px;margin-bottom:6px}
+  .result .rname{font-size:20px;font-weight:700;margin-bottom:6px}
+  .result .rwhy{font-size:13px;color:var(--mid);line-height:1.55}
+  .result .rprice{font-family:var(--mono);font-size:13px;color:var(--green);margin-top:8px}
+
+  .foot{font-family:var(--mono);font-size:11px;color:var(--faint);border-top:1px solid var(--line);
+    padding-top:14px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+  @media(max-width:560px){.twocol{grid-template-columns:1fr}.row .lbl{width:50%}}
+</style>
+
+<div class="wrap">
+  <span class="corner c-tl"></span><span class="corner c-tr"></span>
+  <span class="corner c-bl"></span><span class="corner c-br"></span>
+
+  <div class="stamp">
+    <span class="g">//</span> doc: learning_pricing &nbsp;·&nbsp; type: learning<br>
+    <span class="g">//</span> source: notion / pricing-structure v1 (modul 1–3)<br>
+    <span class="g">//</span> ziel: in 1h durch · jeder im team versteht's
+  </div>
+
+  <h1>Unsere Preise<span class="dot">.</span> Ohne Bullshit erklärt.</h1>
+  <p class="sub">automatisierbar internal &nbsp;·&nbsp; wen wir verkaufen, was wir kosten, wie wir auf die zahl kommen</p>
+
+  <div class="hero">
+    <p><span class="lead">Das ganze Modell in einem Satz:</span> Wir verkaufen drei Preis-Pakete an Deutschschweizer KMU mit Backoffice-Schmerz — und wir kommen auf den Preis, indem wir <em>die Zeit, die der Kunde heute verschwendet, in Franken umrechnen</em>. Der Build kostet ungefähr vier Monate dieser Ersparnis. Mehr ist es im Kern nicht.</p>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" data-t="1">01 · DAS MODELL</div>
+    <div class="tab" data-t="2">02 · WEN WIR VERKAUFEN</div>
+    <div class="tab" data-t="3">03 · DIE 3 PREISE</div>
+    <div class="tab" data-t="4">04 · WIE WIR AUF DIE ZAHL KOMMEN</div>
+  </div>
+
+  <!-- PANEL 1 -->
+  <div class="panel active" data-p="1">
+    <div class="kicker">// 01 — das mentale modell</div>
+    <h2>Drei Bausteine. Mehr musst du nicht im Kopf haben.</h2>
+    <p>Jeder Deal besteht aus den gleichen zwei Zahlen, plus einem Notausgang:</p>
+    <ul>
+      <li><strong>Build-Fee</strong> — einmalig. Wir bauen die Automation. Diese Zahl ist <em>profit-positiv</em>: Joaquins Stunden mal ~1.5–2. Wir verdienen schon am Bau.</li>
+      <li><strong>Retainer</strong> — monatlich. Wir halten die Automation am Laufen, beheben Bugs, betreuen. Das ist <em>reiner wiederkehrender Gewinn</em>.</li>
+      <li><strong>AI Audit Day</strong> — der Notausgang. Wenn der Kunde noch nicht "ja" zum Bau sagt, verkaufen wir ihm einen bezahlten Analyse-Tag statt ihn ganz zu verlieren.</li>
+    </ul>
+    <h3>Warum drei Pakete und nicht eins?</h3>
+    <p>Das ist Absicht, kein Zufall. Es gibt <strong>Starter</strong>, <strong>Standard</strong> und <strong>Strategic Partner</strong>. Das teuerste (Strategic, bis 35k) ist 14× so teuer wie das günstigste. Sein Job ist <em>nicht</em>, oft verkauft zu werden — sein Job ist, dass <strong>Standard daneben wie der vernünftige Mittelweg aussieht</strong>. Die meisten Abschlüsse landen deshalb in der Mitte. Klassischer Anker-Effekt.</p>
+    <h3>Der eine Satz, der alles trägt</h3>
+    <div class="filter">
+      <div class="kicker">// merksatz</div>
+      <p style="margin:0;font-size:13.5px"><strong>Wir verkaufen keine Stunden und keine Software. Wir verkaufen eine Franken-Ersparnis.</strong> "Wir sparen euch Zeit" überzeugt niemanden. "Ihr verliert 32'750 CHF pro Jahr an diesem einen Prozess — Payback in 3 Monaten" überzeugt. Tab 04 zeigt, wie wir auf diese Zahl kommen.</p>
+    </div>
+    <p class="mid" style="margin-top:14px">Wichtig fürs Verständnis: Diese Preise sind <strong>v1 Hypothese</strong> — pre-revenue. Bieri (3'000 + 500/mo) ist der einzige Referenzpunkt. Nach 5 zahlenden Kunden werden alle Zahlen gegen echte Daten geprüft. Präsentier sie selbstbewusst, aber wisse: sie sind noch nicht in Stein gemeißelt.</p>
+  </div>
+
+  <!-- PANEL 2 -->
+  <div class="panel" data-p="2">
+    <div class="kicker">// 02 — der kunde</div>
+    <h2>Deutschschweizer KMU mit dokumentiertem Backoffice-Schmerz.</h2>
+    <p>In einem Satz: <em>10–200 Mitarbeitende, Deutschschweiz, repetitive Backoffice-Prozesse auf Tools, die eine API/Schnittstelle haben.</em> Wenn ein Lead das nicht erfüllt, lohnt sich das Gespräch meistens nicht.</p>
+    <div class="twocol">
+      <div class="box in">
+        <div class="h">// 5 ANKER-SEKTOREN (priorität)</div>
+        <ul>
+          <li>Treuhand / Buchhaltung</li>
+          <li>Immobilienverwaltung <span class="mid">← Bieri</span></li>
+          <li>Anwaltskanzlei</li>
+          <li>Steuerberater</li>
+          <li>Versicherungsmakler <span class="mid">(non-FINMA)</span></li>
+        </ul>
+      </div>
+      <div class="box out">
+        <div class="h">// HARTES NEIN — kein gespräch</div>
+        <ul>
+          <li>Coiffeur, Restaurant, Bäckerei <span class="mid">(kein Backoffice)</span></li>
+          <li>Handwerk: Sanitär, Elektriker, Maler</li>
+          <li>Apotheke, Arztpraxis <span class="mid">(PHI-Risiko)</span></li>
+          <li>Vollbanken, FINMA-Asset-Manager</li>
+          <li>On-prem-Tools ohne API</li>
+        </ul>
+      </div>
+    </div>
+    <h3>Die Faustregel für Outreach</h3>
+    <p>Frag dich bei jedem Lead drei Dinge — kommt von Hormozis "Starving Crowd":</p>
+    <ul>
+      <li><strong>Echter Schmerz?</strong> Repetitive Arbeit, die jemanden nervt und Stunden frisst.</li>
+      <li><strong>Kann er zahlen?</strong> 10–200 MA hat das Cash für 3–35k einmalig plus Retainer.</li>
+      <li><strong>Lässt es sich automatisieren?</strong> Tools mit API/Webhook (M365, Google Workspace, gängige SaaS). Kein Integrations-Punkt = keine Automation.</li>
+    </ul>
+    <p class="mid">Romandie und Tessin lassen wir bis Ende 2026 liegen — Sprache und Netzwerk fehlen. Firmen unter 10 oder über 200 MA: Einzelfall, nicht aktiv jagen.</p>
+  </div>
+
+  <!-- PANEL 3 -->
+  <div class="panel" data-p="3">
+    <div class="kicker">// 03 — die preise, konkret</div>
+    <h2>Drei Pakete plus ein Notausgang.</h2>
+
+    <div class="bracket starter">
+      <div class="top"><span class="name">🟢 Starter</span><span class="who">KMU 10–30 MA · 1 dokumentierter Schmerz · "Bieri-Profil"</span></div>
+      <div class="prices">
+        <div class="pr"><span class="v">2'500–4'000</span><span class="l">BUILD-FEE CHF · EINMALIG</span></div>
+        <div class="pr"><span class="v">300–600</span><span class="l">RETAINER CHF / MONAT</span></div>
+      </div>
+      <div class="scope">1 Workflow · 1–2 Integrationen · Telegram-Alert bei Fehler · Handover-Doc. Kein monatlicher Call (E-Mail-Status). ~15–20h Joaquin-Build.</div>
+    </div>
+
+    <div class="bracket standard">
+      <div class="top"><span class="name">🔵 Standard</span><span class="who">KMU 30–100 MA · 2–3 Prozesse zu automatisieren</span></div>
+      <div class="prices">
+        <div class="pr"><span class="v">6'000–12'000</span><span class="l">BUILD-FEE CHF · EINMALIG</span></div>
+        <div class="pr"><span class="v">800–1'800</span><span class="l">RETAINER CHF / MONAT</span></div>
+      </div>
+      <div class="scope">2–4 Workflows · 2–4 Integrationen · Monitoring-Dashboard · monatlicher 30min Check-in · Quartals-ROI-Call. ~40–70h Build. <strong>Die meisten Abschlüsse landen hier.</strong></div>
+    </div>
+
+    <div class="bracket strategic">
+      <div class="top"><span class="name">🟣 Strategic Partner</span><span class="who">KMU 50–200 MA · "AI-Department"-Mindset · laufende Partnerschaft</span></div>
+      <div class="prices">
+        <div class="pr"><span class="v">18'000–35'000</span><span class="l">BUILD-FEE CHF · EINMALIG</span></div>
+        <div class="pr"><span class="v">2'500–5'000</span><span class="l">RETAINER CHF / MONAT</span></div>
+      </div>
+      <div class="scope">Multi-Workflow · eingebetteter Slack/Telegram-Channel · Custom Dashboards · monatliche Optimierungs-Zyklen · LLM/Agent-Integration inkl. ~100–180h Build. <em>Das ist der Anker — er muss nicht oft verkauft werden.</em></div>
+    </div>
+
+    <div class="bracket audit">
+      <div class="top"><span class="name">🔍 AI Audit Day</span><span class="who">DOWNSELL — wenn der Lead noch nicht "ja" zum Bau sagt</span></div>
+      <div class="prices">
+        <div class="pr"><span class="v">1'500–2'500</span><span class="l">CHF · 1 TAG · KEIN BUILD-COMMITMENT</span></div>
+      </div>
+      <div class="scope">1 Tag vor Ort, Interviews mit 3–5 Backoffice-Leuten, schriftlicher Report (5–10 S.): Top-3 Automations-Kandidaten + Ersparnis-Schätzung + Bracket-Empfehlung. <strong>Trick:</strong> die Audit-Fee wird zu 100% auf die Build-Fee angerechnet, wenn der Kunde innerhalb 30 Tagen bucht.</div>
+    </div>
+
+    <div class="filter">
+      <div class="kicker">// welches paket? — entscheidungs-regel fürs verkaufsteam</div>
+      <ul>
+        <li>Nach dem Workflow-Interview zählen: wie viele klar abgrenzbare Workflows?</li>
+        <li><code>1 Workflow</code> → Starter</li>
+        <li><code>2–4 Workflows</code> → Standard</li>
+        <li><code>5+ Workflows</code> oder <code>"wir wollen einen AI-Partner"</code> → Strategic Partner</li>
+        <li><code>"wir wissen nicht, was sich automatisieren lässt"</code> → AI Audit Day</li>
+      </ul>
+    </div>
+    <p class="mid" style="margin-top:14px">Der Finder unten am Dokument macht genau diese Regel klickbar — zum Üben.</p>
+  </div>
+
+  <!-- PANEL 4 -->
+  <div class="panel" data-p="4">
+    <div class="kicker">// 04 — vom schmerz zur franken-zahl</div>
+    <h2>Der ROI-Calculator: vier Schritte, fertig.</h2>
+    <p>So wird aus "ihr verschwendet Zeit" eine Zahl, der der Kunde nicht widersprechen kann — weil es <em>seine eigene</em> Stunden-Schätzung ist.</p>
+
+    <h3>Schritt 1 · Stunden × Stundensatz</h3>
+    <p>Frag im Interview: wie viele Stunden pro Woche kostet dieser Prozess? Multiplizier mit dem Vollkosten-Stundensatz der Rolle:</p>
+    <table>
+      <tr><th>Rolle</th><th>CHF/h voll-belastet</th></tr>
+      <tr><td>Sachbearbeiter / Junior Admin</td><td class="n">70</td></tr>
+      <tr><td>Mid-Level Admin / Buchhalter</td><td class="n">90</td></tr>
+      <tr><td>Senior Admin / Treuhand-MA / Anwaltsassistenz</td><td class="n">120</td></tr>
+      <tr><td>Inhaber / GF (macht Admin selbst)</td><td class="n">180</td></tr>
+    </table>
+    <p class="mid">Sagt der Kunde "bei uns sind's eher 85" — dann nimm 85. Die Tabelle ist nur der Default.</p>
+
+    <h3>Schritt 2 · Stunden nach Automation abziehen</h3>
+    <p>Was bleibt nach dem Build übrig? Die Differenz × Stundensatz × 4.33 Wochen = <strong>Ersparnis pro Monat</strong>. Mal 12 = pro Jahr.</p>
+
+    <h3>Schritt 3 · Jahres-Ersparnis bestimmt das Paket</h3>
+    <p>Faustregel: die Build-Fee soll rund <em>4 Monate Ersparnis</em> sein. Daraus fällt das Bracket fast von selbst:</p>
+    <div class="row"><div class="lbl">&lt; 5'000 CHF / Jahr</div><div class="val">→ Audit Day (Build lohnt sich nicht)</div></div>
+    <div class="row"><div class="lbl">5'000 – 9'000 CHF / Jahr</div><div class="val">→ Starter</div></div>
+    <div class="row"><div class="lbl">9'000 – 30'000 CHF / Jahr</div><div class="val">→ Standard</div></div>
+    <div class="row"><div class="lbl">&gt; 30'000 CHF / Jahr</div><div class="val">→ Strategic Partner</div></div>
+
+    <h3>Schritt 4 · Ehrlich bleiben mit Confidence-Ranges</h3>
+    <p>Wir raten vor dem Pilot. Also kommuniziere eine Spanne, keine Punktzahl: <code>Low ±50%</code> (nur Cold Call), <code>Mid ±25%</code> (nach Interview), <code>High ±10%</code> (nach Pilot-Messung). Die Spanne macht uns glaubwürdiger, nicht schwächer.</p>
+
+    <div class="example">
+      <span class="tag">// rechenbeispiel — bieri, mieter-reparatur-tickets</span>
+      <p style="margin-bottom:6px"><strong>8h/Woche</strong> heute, Mid-Admin → <code>90 CHF/h</code>. Nach Automation: <strong>1.5h/Woche</strong>. Plus 200 CHF/mo Fehlerkosten.</p>
+      <p style="margin-bottom:6px">(8 − 1.5) × 4.33 × 90 + 200 = <strong style="color:var(--green)">2'729 CHF / Monat</strong> → <strong style="color:var(--green)">~32'750 CHF / Jahr</strong></p>
+      <p style="margin:0">32k &gt; 30k → <strong>Standard</strong>. Payback: 9'000 / 2'729 = <strong style="color:var(--green)">3.3 Monate</strong>. Das ist der Satz, mit dem du verkaufst.</p>
+    </div>
+  </div>
+
+  <!-- INTERACTIVE FINDER -->
+  <div class="finder">
+    <span class="tag">// interaktiv — übe die bracket-regel</span>
+    <h2>Bracket-Finder</h2>
+    <p class="note">Beantworte wie nach einem echten Workflow-Interview. Es wendet exakt die Entscheidungs-Regel aus Tab 03 an.</p>
+
+    <div class="q">// frage 1 — weiss der lead, was sich automatisieren lässt?</div>
+    <div class="opts" id="q1">
+      <div class="opt" data-q="1" data-v="yes">Ja, Prozesse sind klar</div>
+      <div class="opt" data-q="1" data-v="no">Nein, völlig unklar</div>
+    </div>
+
+    <div id="q2wrap" style="display:none">
+      <div class="q">// frage 2 — wie viele klar abgrenzbare workflows?</div>
+      <div class="opts" id="q2">
+        <div class="opt" data-q="2" data-v="1">1 Workflow</div>
+        <div class="opt" data-q="2" data-v="2-4">2–4 Workflows</div>
+        <div class="opt" data-q="2" data-v="5">5+ / "wollen AI-Partner"</div>
+      </div>
+    </div>
+
+    <div class="result" id="result">
+      <div class="rk">// empfehlung</div>
+      <div class="rname" id="rname"></div>
+      <div class="rwhy" id="rwhy"></div>
+      <div class="rprice" id="rprice"></div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <span>// automatisierbar · learning · pricing v1</span>
+    <span>// v1 hypothese — re-review nach 5 closes</span>
+  </div>
+</div>
+
+<script>
+  // tabs
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click',function(){
+      document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active')});
+      document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active')});
+      tab.classList.add('active');
+      document.querySelector('.panel[data-p="'+tab.dataset.t+'"]').classList.add('active');
+    });
+  });
+
+  // finder
+  var state={1:null,2:null};
+  var results={
+    audit:{name:"🔍 AI Audit Day",why:"Der Lead kann Prozesse nicht klar benennen. Verkauf keinen Build ins Blaue — verkauf den bezahlten Analyse-Tag. Output: Report mit Top-3 Kandidaten. Die Fee wird auf einen späteren Build angerechnet.",price:"1'500–2'500 CHF · 1 Tag · kein Build-Commitment"},
+    starter:{name:"🟢 Starter",why:"Ein klar abgrenzbarer Workflow. Genau das Bieri-Profil. Build profit-positiv, Retainer als laufende Betreuung.",price:"Build 2'500–4'000 CHF · Retainer 300–600 CHF/mo"},
+    standard:{name:"🔵 Standard",why:"2–4 Workflows — der häufigste Fall. Das mittlere Paket wirkt neben dem Strategic Partner wie der vernünftige Mittelweg. Hier landen die meisten Abschlüsse.",price:"Build 6'000–12'000 CHF · Retainer 800–1'800 CHF/mo"},
+    strategic:{name:"🟣 Strategic Partner",why:"5+ Workflows oder der Lead will eine laufende Partnerschaft, keine Einzel-Builds. Der Anker im Angebot — höchste Marge pro Abschluss.",price:"Build 18'000–35'000 CHF · Retainer 2'500–5'000 CHF/mo"}
+  };
+  function pick(q,v,el){
+    state[q]=v;
+    el.parentNode.querySelectorAll('.opt').forEach(function(o){o.classList.remove('sel')});
+    el.classList.add('sel');
+    if(q==1){
+      if(v=='no'){ state[2]=null; document.getElementById('q2wrap').style.display='none'; show('audit'); }
+      else { document.getElementById('q2wrap').style.display='block'; document.getElementById('result').classList.remove('show'); }
+    }
+    if(q==2){
+      if(v=='1') show('starter');
+      else if(v=='2-4') show('standard');
+      else show('strategic');
+    }
+  }
+  function show(key){
+    var r=results[key];
+    document.getElementById('rname').textContent=r.name;
+    document.getElementById('rwhy').textContent=r.why;
+    document.getElementById('rprice').textContent=r.price;
+    document.getElementById('result').classList.add('show');
+  }
+  document.querySelectorAll('.opt').forEach(function(o){
+    o.addEventListener('click',function(){ pick(o.dataset.q,o.dataset.v,o); });
+  });
+</script>
