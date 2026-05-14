@@ -1,0 +1,275 @@
+<!-- // doc: learning_artifacts -->
+<!-- // type: learning -->
+<!-- // for: joaquin -->
+<meta charset="utf-8">
+<title>Artifacts — wann & wie für Automatisierbar</title>
+<style>
+  :root{
+    --bg:#09100D;
+    --panel:#0E1714;
+    --panel-2:#101D18;
+    --line:#1E2B24;
+    --green:#15C97A;
+    --green-deep:#0A8F54;
+    --green-dim:#0e3d2a;
+    --text:#E8F3EE;
+    --mid:#7C9388;
+    --faint:#4A6358;
+    --mono:'SFMono-Regular',Menlo,Consolas,'Courier New',monospace;
+    --sans:'Helvetica Neue',Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+  body{
+    padding:32px 20px 64px;
+    background-image:
+      linear-gradient(var(--line) 1px,transparent 1px),
+      linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:30px 30px;
+    background-position:center top;
+  }
+  .wrap{max-width:760px;margin:0 auto;position:relative}
+  .corner{position:absolute;width:14px;height:14px;border-color:var(--green-deep);border-style:solid;opacity:.7}
+  .c-tl{top:-8px;left:-8px;border-width:1px 0 0 1px}
+  .c-tr{top:-8px;right:-8px;border-width:1px 1px 0 0}
+  .c-bl{bottom:-8px;left:-8px;border-width:0 0 1px 1px}
+  .c-br{bottom:-8px;right:-8px;border-width:0 1px 1px 0}
+
+  .stamp{font-family:var(--mono);font-size:11px;color:var(--faint);line-height:1.7;margin-bottom:22px}
+  .stamp .g{color:var(--green-deep)}
+
+  h1{font-size:30px;font-weight:700;letter-spacing:-.5px;line-height:1.15;margin-bottom:8px}
+  h1 .dot{color:var(--green)}
+  .sub{font-family:var(--mono);font-size:12px;color:var(--mid);margin-bottom:24px}
+
+  .hero{
+    background:var(--panel);border:1px solid var(--line);border-left:2px solid var(--green);
+    padding:18px 20px;margin-bottom:28px
+  }
+  .hero p{font-size:15px;line-height:1.6}
+  .hero .lead{color:var(--green);font-weight:700}
+
+  .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:0}
+  .tab{
+    font-family:var(--mono);font-size:11px;letter-spacing:.3px;
+    background:var(--panel);color:var(--mid);border:1px solid var(--line);border-bottom:none;
+    padding:9px 13px;cursor:pointer;transition:.15s;
+  }
+  .tab:hover{color:var(--text)}
+  .tab.active{background:var(--panel-2);color:var(--green);border-color:var(--green-deep);border-bottom:none}
+  .panel{
+    background:var(--panel-2);border:1px solid var(--line);padding:24px 22px;margin-bottom:28px;min-height:280px
+  }
+  .panel:not(.active){display:none}
+
+  . semno{font-family:var(--mono)}
+  .kicker{font-family:var(--mono);font-size:11px;color:var(--green-deep);letter-spacing:.5px;margin-bottom:10px}
+  h2{font-size:18px;font-weight:700;margin-bottom:12px;letter-spacing:-.2px}
+  h3{font-size:14px;font-weight:700;margin:18px 0 6px}
+  p,li{font-size:14px;line-height:1.65;color:var(--text)}
+  .panel p{margin-bottom:12px}
+  ul{list-style:none;margin-bottom:12px}
+  li{padding-left:18px;position:relative;margin-bottom:7px}
+  li::before{content:"›";position:absolute;left:0;color:var(--green)}
+  .mid{color:var(--mid)}
+  code{font-family:var(--mono);font-size:12px;background:var(--bg);border:1px solid var(--line);padding:1px 5px;color:var(--green)}
+
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+  .card{background:var(--panel);border:1px solid var(--line);padding:13px 14px}
+  .card .n{font-family:var(--mono);font-size:11px;color:var(--green-deep)}
+  .card .t{font-weight:700;font-size:13px;margin:3px 0 5px}
+  .card p{font-size:12.5px;color:var(--mid);line-height:1.55;margin:0}
+
+  .row{display:flex;gap:0;border:1px solid var(--line);margin:8px 0}
+  .row>div{padding:11px 13px;font-size:13px}
+  .row .lbl{width:42%;border-right:1px solid var(--line);font-family:var(--mono);font-size:11.5px;color:var(--mid)}
+  .yes{color:var(--green)}
+  .no{color:#C8704A}
+
+  .filter{background:var(--panel);border:1px dashed var(--green-deep);padding:14px 16px;margin-top:14px}
+  .filter .kicker{margin-bottom:8px}
+  .filter li{font-size:13px}
+
+  /* live demo */
+  .demo{background:var(--panel);border:1px solid var(--green-deep);border-top:2px solid var(--green);padding:22px;margin-bottom:24px}
+  .demo .tag{font-family:var(--mono);font-size:10.5px;background:var(--green-dim);color:var(--green);padding:3px 7px;display:inline-block;margin-bottom:12px;letter-spacing:.4px}
+  .demo h2{margin-bottom:4px}
+  .demo .note{font-size:12.5px;color:var(--mid);margin-bottom:18px}
+  .field{margin-bottom:12px}
+  .field label{display:block;font-family:var(--mono);font-size:11px;color:var(--mid);margin-bottom:5px}
+  .field input{
+    width:100%;background:var(--bg);border:1px solid var(--line);color:var(--text);
+    font-family:var(--mono);font-size:14px;padding:9px 11px;outline:none
+  }
+  .field input:focus{border-color:var(--green-deep)}
+  .out{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+  .kpi{background:var(--bg);border:1px solid var(--line);padding:14px}
+  .kpi .v{font-size:26px;font-weight:700;color:var(--green);letter-spacing:-1px}
+  .kpi .l{font-family:var(--mono);font-size:10.5px;color:var(--mid);margin-top:3px;letter-spacing:.3px}
+
+  .foot{font-family:var(--mono);font-size:11px;color:var(--faint);border-top:1px solid var(--line);padding-top:14px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+  @media(max-width:560px){.cards,.out{grid-template-columns:1fr}.row .lbl{width:50%}}
+</style>
+
+<div class="wrap">
+  <span class="corner c-tl"></span><span class="corner c-tr"></span>
+  <span class="corner c-bl"></span><span class="corner c-br"></span>
+
+  <div class="stamp">
+    <span class="g">//</span> doc: learning_artifacts<br>
+    <span class="g">//</span> type: learning &nbsp;·&nbsp; for: joaquin<br>
+    <span class="g">//</span> kontext: claude.ai feature — artifacts
+  </div>
+
+  <h1>Artifacts<span class="dot">.</span> Wann, wie, und wofür nicht.</h1>
+  <p class="sub">automatisierbar internal &nbsp;·&nbsp; ein artifact, das artifacts erklärt</p>
+
+  <div class="hero">
+    <p><span class="lead">Kurz:</span> Ein Artifact ist ein eigenständiges Stück Output — eine Webseite, ein Rechner, ein Diagramm, ein Dokument — das ich in einem eigenen Fenster neben dem Chat baue. Du kannst es anschauen, benutzen, herunterladen und mich in Sekunden ändern lassen. Dieses Dokument hier <em>ist</em> eins. Genau so fühlt es sich an.</p>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" data-t="1">01 · WAS</div>
+    <div class="tab" data-t="2">02 · WANN ES SICH LOHNT</div>
+    <div class="tab" data-t="3">03 · WANN NICHT</div>
+    <div class="tab" data-t="4">04 · KONKRET FÜR DICH</div>
+  </div>
+
+  <!-- PANEL 1 -->
+  <div class="panel active" data-p="1">
+    <div class="kicker">// 01 — was ein artifact ist</div>
+    <h2>Kein neues Tool. Eine bessere Output-Form.</h2>
+    <p>Normaler Chat ist Text. Ein Artifact ist <strong>Text plus Form</strong> — es rendert, ist klickbar, lebt in einem eigenen Panel und bleibt im Gespräch erhalten. Du kannst später draufzeigen und sagen "ändere das" — ohne neu zu erklären.</p>
+    <h3>Was rein passt</h3>
+    <div class="cards">
+      <div class="card"><div class="n">html / react</div><div class="t">Interaktive Tools</div><p>Rechner, Mockups, kleine Apps, Demos.</p></div>
+      <div class="card"><div class="n">mermaid / svg</div><div class="t">Diagramme</div><p>Prozess-Maps, Flows, Architektur.</p></div>
+      <div class="card"><div class="n">markdown / pdf</div><div class="t">Dokumente</div><p>Reports, Referenzen, Handouts.</p></div>
+      <div class="card"><div class="n">code</div><div class="t">Längere Skripte</div><p>n8n-Snippets, Flask-Routen, Configs.</p></div>
+    </div>
+    <p class="mid">Der eine Punkt, den du behalten solltest: ein Artifact ist <strong>billig zu erzeugen und billig wegzuwerfen</strong>. Das ist seine Stärke — nicht Perfektion, sondern Geschwindigkeit beim Zeigen.</p>
+  </div>
+
+  <!-- PANEL 2 -->
+  <div class="panel" data-p="2">
+    <div class="kicker">// 02 — wann es echten hebel hat</div>
+    <h2>Wenn jemand etwas <em>sehen</em> muss, bevor es gebaut wird.</h2>
+    <p>Das ist exakt deine <code>Prototype Testing</code>-Phase. Ein Artifact sitzt zwischen "Idee" und "in n8n gebaut" — der Moment, wo du Reaktion testen willst, ohne schon echte Arbeit investiert zu haben.</p>
+    <ul>
+      <li><strong>Client-Mockup vor dem Bau.</strong> Bevor du eine n8n-Automation für Bieri oder Gränacher baust — ein klickbares HTML-Mockup des Outputs. Zeigt's der Kunde, du siehst die Reaktion in 5 Minuten statt nach 5 Stunden Bau.</li>
+      <li><strong>Rechner fürs Sales-Gespräch.</strong> Ein ROI-Rechner, den Nico im Walk-in live aufmacht: Stunden rein, Ersparnis raus. Wiederverwendbar, kein Bau pro Kunde.</li>
+      <li><strong>Prozess-Map während des Workflow-Interviews.</strong> Mermaid-Diagramm des Kundenprozesses, live mitgezeichnet — macht Engpässe sichtbar im Gespräch.</li>
+      <li><strong>Schnelle interne Referenz.</strong> Ein One-Pager fürs Team, wenn es kein druckreifes PDF sein muss — schneller iterierbar als deine Playwright-PDF-Pipeline.</li>
+    </ul>
+    <div class="filter">
+      <div class="kicker">// decision filter — bevor du ein artifact baust</div>
+      <ul>
+        <li>Muss es jemand <strong>sehen oder anfassen</strong>, nicht nur lesen? → ja, Artifact.</li>
+        <li>Reicht eine <strong>Wegwerf-Version</strong>, um Reaktion zu testen? → ja, Artifact.</li>
+        <li>Wird es <strong>mehrfach gebraucht</strong> (Rechner, Mockup-Vorlage)? → ja, lohnt sich.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- PANEL 3 -->
+  <div class="panel" data-p="3">
+    <div class="kicker">// 03 — wann es das falsche werkzeug ist</div>
+    <h2>Artifacts sind die Kommunikations-Schicht. Nicht die Infrastruktur.</h2>
+    <p>Der häufigste Fehler wäre, sie mit deiner echten Stack zu verwechseln. Klare Trennung:</p>
+    <div class="row"><div class="lbl">echte Automation, läuft 24/7</div><div><span class="no">✗ kein Artifact</span> → das ist n8n</div></div>
+    <div class="row"><div class="lbl">deployte App mit State & Daten</div><div><span class="no">✗ kein Artifact</span> → das ist Flask auf Render</div></div>
+    <div class="row"><div class="lbl">Antwort passt in 2 Sätze</div><div><span class="no">✗ kein Artifact</span> → einfach Text</div></div>
+    <div class="row"><div class="lbl">Kunde soll Output anschauen</div><div><span class="yes">✓ Artifact</span> → Mockup / Demo</div></div>
+    <div class="row"><div class="lbl">Team braucht ein Live-Tool</div><div><span class="yes">✓ Artifact</span> → Rechner / Referenz</div></div>
+    <p style="margin-top:14px"><strong>Reality-Check:</strong> Ein Artifact läuft nur, solange das Chat-Fenster offen ist. Es hat keinen echten Server, keine Datenbank, keine Persistenz für deine Kunden. In dem Moment, wo etwas <em>produktiv</em> laufen muss, ist es ein n8n-Workflow oder die Flask-App — nicht ein Artifact. Verwechselst du das, baust du Spielzeug, wo Infrastruktur hingehört.</p>
+    <p class="mid">Merksatz: Artifact = zeigen, testen, wegwerfen. n8n / Flask = bauen, deployen, betreiben.</p>
+  </div>
+
+  <!-- PANEL 4 -->
+  <div class="panel" data-p="4">
+    <div class="kicker">// 04 — anwendung auf dein setup</div>
+    <h2>Drei Stellen, wo es sofort Sinn macht.</h2>
+
+    <h3>1 · Bieri / Gränacher — Mockup statt Beschreibung</h3>
+    <p>Nico präsentiert gerade. Statt den automatisierten Dossier-Flow zu <em>beschreiben</em>, lass mich ein klickbares HTML-Mockup bauen: "gescannte Post → Dossier abgelegt → Mail an Klient". Der Anwalt sieht den Output, nicht eine Erklärung. Kostet einen Prompt, kein Bau-Risiko.</p>
+
+    <h3>2 · ROI-Rechner fürs Outreach-Team</h3>
+    <p>Ein Artifact, das Nico, Tej und Patrik im Gespräch öffnen: Stundenlohn + Stunden/Woche manuelle Arbeit rein, Jahres-Ersparnis raus. Einmal gebaut, immer wieder benutzt. Genau dein "wiederverwendbar statt einmalig"-Prinzip. → <em>Scroll runter, der Prototyp davon ist unten drin.</em></p>
+
+    <h3>3 · Workflow-Interview → Prozess-Map</h3>
+    <p>Während oder direkt nach dem Interview: ich gieße den beschriebenen Prozess in ein Mermaid-Diagramm. Du siehst Schwarz auf Weiß, wo die manuellen Schritte und Workarounds sitzen — bevor irgendwer ans Process Mapping in Notion geht.</p>
+
+    <div class="filter" style="border-style:solid;border-color:var(--green-deep)">
+      <div class="kicker">// so startest du — wörtlich</div>
+      <p style="font-size:13px;margin:0;color:var(--text)">Du musst nichts Technisches lernen. Du beschreibst, ich baue. Konkrete Prompts, die funktionieren:</p>
+      <ul style="margin-top:8px;margin-bottom:0">
+        <li><code>"Bau mir ein klickbares Mockup vom Bieri-Dossier-Flow."</code></li>
+        <li><code>"Mach einen ROI-Rechner als Artifact, Eingabe X und Y, Ausgabe Z."</code></li>
+        <li><code>"Zeichne diesen Prozess als Mermaid-Diagramm."</code></li>
+        <li>Dann: <code>"Ändere Farbe / füge Feld hinzu / kürze das"</code> — iterieren im Chat.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- LIVE DEMO -->
+  <div class="demo">
+    <span class="tag">// das hier ist ein lebendiges artifact — probier's</span>
+    <h2>ROI-Rechner — Prototyp</h2>
+    <p class="note">Tipp Zahlen ein. Es rechnet sofort. Genau so ein Tool könnte das Outreach-Team im Walk-in öffnen — und genau so schnell lasse ich es dir auf deine Zahlen anpassen.</p>
+    <div class="field">
+      <label>// stundenlohn mitarbeiter (CHF)</label>
+      <input id="wage" type="number" value="55">
+    </div>
+    <div class="field">
+      <label>// manuelle stunden pro woche (automatisierbar)</label>
+      <input id="hours" type="number" value="6">
+    </div>
+    <div class="field">
+      <label>// anzahl betroffene mitarbeiter</label>
+      <input id="people" type="number" value="2">
+    </div>
+    <div class="out">
+      <div class="kpi"><div class="v" id="o-week">–</div><div class="l">CHF / WOCHE FREI</div></div>
+      <div class="kpi"><div class="v" id="o-year">–</div><div class="l">CHF / JAHR FREI</div></div>
+      <div class="kpi"><div class="v" id="o-days">–</div><div class="l">ARBEITSTAGE / JAHR FREI</div></div>
+      <div class="kpi"><div class="v" id="o-pay">–</div><div class="l">RETAINER À 3K — AMORTISIERT IN</div></div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <span>// automatisierbar · learning · artifacts</span>
+    <span>// erzeugt in 1 nachricht — das ist der punkt</span>
+  </div>
+</div>
+
+<script>
+  // tabs
+  document.querySelectorAll('.tab').forEach(function(tab){
+    tab.addEventListener('click',function(){
+      document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active')});
+      document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active')});
+      tab.classList.add('active');
+      document.querySelector('.panel[data-p="'+tab.dataset.t+'"]').classList.add('active');
+    });
+  });
+
+  // live calculator
+  function fmt(n){return Math.round(n).toLocaleString('de-CH');}
+  function calc(){
+    var wage = parseFloat(document.getElementById('wage').value)||0;
+    var hours = parseFloat(document.getElementById('hours').value)||0;
+    var people = parseFloat(document.getElementById('people').value)||0;
+    var week = wage*hours*people;
+    var year = week*46; // ~46 arbeitswochen
+    var days = (hours*people*46)/8;
+    var pay = year>0 ? (3000/(year/12)) : 0; // monate bis ein 3k retainer "drin" ist
+    document.getElementById('o-week').textContent = fmt(week);
+    document.getElementById('o-year').textContent = fmt(year);
+    document.getElementById('o-days').textContent = fmt(days);
+    document.getElementById('o-pay').textContent = pay>0 ? (pay<1 ? '< 1 Mt' : fmt(pay)+' Mt') : '–';
+  }
+  document.querySelectorAll('#wage,#hours,#people').forEach(function(el){
+    el.addEventListener('input',calc);
+  });
+  calc();
+</script>

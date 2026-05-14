@@ -1,0 +1,111 @@
+<!-- // doc: learnings_index -->
+<!-- // type: hub -->
+<!-- // for: team -->
+<meta charset="utf-8">
+<title>Automatisierbar — Team Learnings</title>
+<style>
+  :root{
+    --bg:#09100D;
+    --panel:#0E1714;
+    --panel-2:#101D18;
+    --line:#1E2B24;
+    --green:#15C97A;
+    --green-deep:#0A8F54;
+    --green-dim:#0e3d2a;
+    --text:#E8F3EE;
+    --mid:#7C9388;
+    --faint:#4A6358;
+    --mono:'SFMono-Regular',Menlo,Consolas,'Courier New',monospace;
+    --sans:'Helvetica Neue',Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+  body{
+    padding:48px 20px 80px;
+    background-image:
+      linear-gradient(var(--line) 1px,transparent 1px),
+      linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:30px 30px;background-position:center top;
+  }
+  .wrap{max-width:680px;margin:0 auto;position:relative}
+  .corner{position:absolute;width:14px;height:14px;border-color:var(--green-deep);border-style:solid;opacity:.7}
+  .c-tl{top:-12px;left:-12px;border-width:1px 0 0 1px}
+  .c-tr{top:-12px;right:-12px;border-width:1px 1px 0 0}
+  .c-bl{bottom:-12px;left:-12px;border-width:0 0 1px 1px}
+  .c-br{bottom:-12px;right:-12px;border-width:0 1px 1px 0}
+
+  .stamp{font-family:var(--mono);font-size:11px;color:var(--faint);line-height:1.7;margin-bottom:26px}
+  .stamp .g{color:var(--green-deep)}
+
+  h1{font-size:34px;font-weight:700;letter-spacing:-.6px;line-height:1.1;margin-bottom:10px}
+  h1 .dot{color:var(--green)}
+  .sub{font-size:14px;color:var(--mid);line-height:1.6;margin-bottom:36px;max-width:520px}
+
+  .sec{font-family:var(--mono);font-size:11px;color:var(--green-deep);letter-spacing:.5px;margin-bottom:14px}
+
+  a.card{
+    display:block;text-decoration:none;color:inherit;
+    background:var(--panel);border:1px solid var(--line);border-left:2px solid var(--green-deep);
+    padding:20px 22px;margin-bottom:12px;transition:.15s;position:relative;
+  }
+  a.card:hover{border-left-color:var(--green);background:var(--panel-2);transform:translateX(2px)}
+  a.card .num{font-family:var(--mono);font-size:11px;color:var(--green-deep);letter-spacing:.4px}
+  a.card .t{font-size:18px;font-weight:700;margin:5px 0 6px;letter-spacing:-.2px}
+  a.card .d{font-size:13px;color:var(--mid);line-height:1.55;margin-bottom:10px}
+  a.card .meta{font-family:var(--mono);font-size:10.5px;color:var(--faint);letter-spacing:.3px}
+  a.card .arrow{position:absolute;top:20px;right:22px;color:var(--green-deep);font-size:16px;transition:.15s}
+  a.card:hover .arrow{color:var(--green);transform:translateX(3px)}
+
+  .note{
+    background:var(--panel);border:1px dashed var(--green-deep);padding:14px 16px;margin-top:30px;
+    font-size:12.5px;color:var(--mid);line-height:1.6;
+  }
+  .note .h{font-family:var(--mono);font-size:10.5px;color:var(--green-deep);letter-spacing:.4px;margin-bottom:6px}
+
+  .foot{
+    font-family:var(--mono);font-size:11px;color:var(--faint);
+    border-top:1px solid var(--line);padding-top:16px;margin-top:36px;
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+  }
+</style>
+
+<div class="wrap">
+  <span class="corner c-tl"></span><span class="corner c-tr"></span>
+  <span class="corner c-bl"></span><span class="corner c-br"></span>
+
+  <div class="stamp">
+    <span class="g">//</span> automatisierbar &nbsp;·&nbsp; team learnings<br>
+    <span class="g">//</span> interne referenz — anschauen wenn du's brauchst
+  </div>
+
+  <h1>Team Learnings<span class="dot">.</span></h1>
+  <p class="sub">Kurze, interaktive Erklärungen zu dem, was das Team verstehen muss. Kein Theorie-Ballast — durchklicken, verstehen, weiterarbeiten.</p>
+
+  <div class="sec">// verfügbar</div>
+
+  <a class="card" href="pricing.html">
+    <span class="arrow">→</span>
+    <div class="num">01 · PRICING</div>
+    <div class="t">Unsere Preise — ohne Bullshit erklärt</div>
+    <div class="d">Wen wir verkaufen, was wir kosten, und wie wir auf die Franken-Zahl kommen. Mit klickbarem Bracket-Finder zum Üben.</div>
+    <div class="meta">// ~1h durch · pflicht vor jeder kunden-quote</div>
+  </a>
+
+  <a class="card" href="artifacts.html">
+    <span class="arrow">→</span>
+    <div class="num">02 · TOOLING</div>
+    <div class="t">Artifacts — wann, wie, wofür nicht</div>
+    <div class="d">Wie wir Claude-Artifacts nutzen, um Kunden etwas zu zeigen, bevor wir es bauen. Mit lebendigem ROI-Rechner als Beispiel.</div>
+    <div class="meta">// ~20min durch · für mockups & demos</div>
+  </a>
+
+  <div class="note">
+    <div class="h">// neue learnings</div>
+    Kommen hier dazu, sobald sie gebaut sind. Wenn etwas fehlt oder unklar ist — Joaquin via Telegram pingen.
+  </div>
+
+  <div class="foot">
+    <span>// automatisierbar.ch · internal</span>
+    <span>// v1 · 2026</span>
+  </div>
+</div>
